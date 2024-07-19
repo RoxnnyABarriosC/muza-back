@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  api:
+    volumes:
+      - .:/app:cached
+
+  mail:
+    container_name: ${PROJECT_NAME:-base_repository}_mail
+    restart: always
+    image: mailhog/mailhog:latest
+    ports:
+      - "8025:8025"
+    labels:
+      # TODO: bloquear por password esta ruta
+      - traefik.enable=true
+      - traefik.docker.network=external_network
+      - traefik.http.routers.mail.entrypoints=http
+      - traefik.http.routers.mail.rule=Host(`mail.localhost`)
+      - traefik.http.services.mail.loadbalancer.server.port=8025
+      - traefik.http.middlewares.auth.basicauth.users=${LOAD_USERS:-nodebaserepository:$$apr1$$RTZSd6uA$$9zpPRgArFsHX2UWgPNXL..}
+      - traefik.http.middlewares.auth.basicauth.usersfile=/usersfile
+      - traefik.http.routers.mail.middlewares=auth,rateLimit,log4shell,securityHeaders
+    volumes:
+      - ./usersfile:/usersfile
+    networks:
+      - external_network
