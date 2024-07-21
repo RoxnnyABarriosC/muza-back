@@ -23,12 +23,7 @@ services:
       - traefik.http.services.api.loadbalancer.server.port=${API_PORT:-4000}
       - traefik.http.routers.api.middlewares=rateLimit,log4shell,gzipCompress,securityHeadersPolicy # TODO: VALIDAR EL MIDDLEWARE securityHeaders
     environment:
-      - MINIO_EXPOSE_HOST=${S3_DOMAIN:-s3.localhost}
-      - MINIO_EXPOSE_HTTPS=${TLS:-true}
       - PORT=${API_PORT:-4000}
-      - MINIO_PRIVATE_BUCKET=${S3_PRIVATE_BUCKET:-private.baserepository}
-      - MINIO_PUBLIC_BUCKET=${S3_PUBLIC_BUCKET:-public.baserepository}
-      - MINIO_REGION=${S3_REGION:-us-east-1}
     volumes:
       - api:/app
     networks:

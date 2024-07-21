@@ -51,6 +51,8 @@ services:
             S3_CONSOLE_DOMAIN=$(S3_CONSOLE_DOMAIN) \
             S3_CONSOLE_URL=$(S3_CONSOLE_URL) \
             S3_CONSOLE_PATH=$(S3_CONSOLE_PATH) \
+            S3_PUBLIC_BUCKET=$(S3_PUBLIC_BUCKET) \
+            S3_PRIVATE_BUCKET=$(S3_PRIVATE_BUCKET) \
             REDIS_PASSWORD=$(REDIS_PASSWORD) \
             PROJECT_NAME=$(PROJECT_NAME) \
             docker compose -f docker-compose-services.yml \
