@@ -120,6 +120,8 @@ export class SecurityController
 
         const data  = await this.getFormConfigUseCase.handle({ emailOrPhone });
 
+        console.log(data)
+
         return (await Serializer(data, OtpUserConfigSerializer)) as typeof OtpUserConfigSerializer;
     }
 }

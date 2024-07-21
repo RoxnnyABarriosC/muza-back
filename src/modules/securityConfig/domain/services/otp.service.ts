@@ -104,10 +104,17 @@ export class OTPService
         } as ErrorModel;
     }
 
-    async verifyOTP(to: string, code: string)
+    async verifyOTP(to: string, code: string, allowTemp = false)
     {
         try
         {
+            const tempCode = await this.cacheManager.get(`${to}-temp`) as string;
+
+            if (allowTemp && tempCode === code)
+            {
+                return true;
+            }
+
             const res = await this.twilioService
                 .client
                 .verify
@@ -118,6 +125,11 @@ export class OTPService
                     to,
                     code
                 });
+
+            if (allowTemp)
+            {
+                await this.cacheManager.set(to, code, GetMilliseconds('2m'));
+            }
 
             return res.valid;
         }

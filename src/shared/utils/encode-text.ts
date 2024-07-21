@@ -7,6 +7,11 @@ const mask = (start: number, end: number, text: string) =>
 
 export const EncodeText = (text: string, type: AuthType): string =>
 {
+    if (text === null || text === undefined)
+    {
+        return text;
+    }
+
     if (type === 'email')
     {
         const [user, domain] = text.split('@');

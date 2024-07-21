@@ -8,4 +8,8 @@ export class ChangeMyPhoneDto
     @IsString()
     @Length(6, 6)
     public readonly otpCode: string;
+
+    @IsString()
+    @Length(6, 6)
+    public readonly confirmationEmailOTPCode: string;
 }

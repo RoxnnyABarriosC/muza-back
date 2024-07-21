@@ -32,11 +32,18 @@ export class ChangeMyEmailOrPhoneUseCase
             [target]: dto[target]
         };
 
+        const confirmationEmailOTPValid = await this.otpService.verifyOTP(authUser.email, dto.confirmationEmailOTPCode, true);
+
+        if (!confirmationEmailOTPValid)
+        {
+            throw new OTPNotFoundException('emailConfirmation');
+        }
+
         authUser.partialBuild(partial);
 
         void await this.userService.validate(authUser);
 
-        const otpValid = await this.otpService.verifyOTP(dto[target], dto.otpCode);
+        const otpValid = await this.otpService.verifyOTP(dto[target], dto.otpCode, true);
 
         if (!otpValid)
         {

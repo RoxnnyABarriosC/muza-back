@@ -45,7 +45,8 @@ export class OTPRegisterUseCase
             birthday: null,
             gender: null,
             phone: null,
-            enable: true
+            enable: true,
+            verify: true
         });
 
         void await this.service.validate(user);
